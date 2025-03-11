@@ -1,7 +1,3 @@
-// Import Three.js and GLTFLoader from a CDN
-import * as THREE from "https://cdn.jsdelivr.net/npm/three@0.136.0/build/three.module.min.js";
-import { GLTFLoader } from "https://cdn.jsdelivr.net/npm/three@0.136.0/examples/jsm/loaders/GLTFLoader.js";
-
 // Initialize scene, camera, and renderer
 const scene = new THREE.Scene();
 const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
@@ -25,7 +21,7 @@ function getParameterByName(name) {
 let modelURL = getParameterByName("model") || "models/sample.glb";
 
 // Load the 3D model
-const loader = new GLTFLoader();
+const loader = new THREE.GLTFLoader();
 loader.load(modelURL, function (gltf) {
     const model = gltf.scene;
     model.position.set(0, -50, 0); // Adjust model position
