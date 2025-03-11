@@ -18,6 +18,7 @@
     <script>
         let scene, camera, renderer, controls, raycaster, mouse;
         let selectedObject = null;
+        let modelPath = "models/sample.glb";  // Dynamic model path
         
         function init() {
             scene = new THREE.Scene();
@@ -39,16 +40,17 @@
             raycaster = new THREE.Raycaster();
             mouse = new THREE.Vector2();
             
-            loadGLBModel();
+            loadGLBModel(modelPath);
             animate();
             
             window.addEventListener('resize', onWindowResize);
             window.addEventListener('click', onModelClick);
+            window.addEventListener("message", onPowerBIMessage, false); // Listening for Power BI data
         }
         
-        function loadGLBModel() {
+        function loadGLBModel(path) {
             const loader = new THREE.GLTFLoader();
-            loader.load("sample.glb", function (gltf) {
+            loader.load(path, function (gltf) {
                 scene.add(gltf.scene);
             }, undefined, function (error) {
                 console.error("Error loading GLB file", error);
@@ -69,6 +71,9 @@
                 selectedObject = intersects[0].object;
                 selectedObject.material.emissive = new THREE.Color(0xff0000);
                 console.log("Selected object:", selectedObject.name);
+                
+                // Send selected object info to Power BI
+                window.parent.postMessage({ selectedObject: selectedObject.name }, "*");
             }
         }
         
@@ -76,6 +81,17 @@
             camera.aspect = window.innerWidth / window.innerHeight;
             camera.updateProjectionMatrix();
             renderer.setSize(window.innerWidth, window.innerHeight);
+        }
+        
+        function onPowerBIMessage(event) {
+            let data = event.data;
+            console.log("Received from Power BI:", data);
+            
+            // If Power BI sends a new model path, update the model dynamically
+            if (data.modelPath) {
+                scene.clear();  // Remove existing objects
+                loadGLBModel(data.modelPath);
+            }
         }
         
         function animate() {
