@@ -22,7 +22,7 @@
             border-radius: 10px; display: none; z-index: 200;
         }
     </style>
-    <!-- Load Three.js and GLTFLoader (No module imports to avoid GitHub Pages errors) -->
+    <!-- Load Three.js, GLTFLoader, and OrbitControls -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/examples/js/loaders/GLTFLoader.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/examples/js/controls/OrbitControls.js"></script>
@@ -50,7 +50,7 @@
         renderer.setSize(window.innerWidth, window.innerHeight);
         document.getElementById('container').appendChild(renderer.domElement);
 
-        // Controls
+        // ✅ FIX: OrbitControls needs to be initialized properly
         const controls = new THREE.OrbitControls(camera, renderer.domElement);
         controls.enableDamping = true;
 
