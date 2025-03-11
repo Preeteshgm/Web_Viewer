@@ -1,15 +1,16 @@
+// Import Three.js and GLTFLoader properly
 import * as THREE from "https://cdn.jsdelivr.net/npm/three@0.128.0/build/three.module.js";
 import { GLTFLoader } from "https://cdn.jsdelivr.net/npm/three@0.128.0/examples/jsm/loaders/GLTFLoader.js";
 
-// Initialize Scene
-var scene = new THREE.Scene();
-var camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
-var renderer = new THREE.WebGLRenderer({ antialias: true });
+// Initialize the Three.js scene
+const scene = new THREE.Scene();
+const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+const renderer = new THREE.WebGLRenderer({ antialias: true });
 renderer.setSize(window.innerWidth, window.innerHeight);
 document.body.appendChild(renderer.domElement);
 
-// Add lighting
-var light = new THREE.AmbientLight(0xffffff, 1);
+// Add lighting to the scene
+const light = new THREE.AmbientLight(0xffffff, 1);
 scene.add(light);
 
 // Function to get URL parameters (for Power BI integration)
@@ -22,7 +23,7 @@ function getParameterByName(name) {
 let modelURL = getParameterByName("model") || "models/sample.glb";
 
 // Load 3D Model
-var loader = new GLTFLoader();
+const loader = new GLTFLoader();
 loader.load(modelURL, function (gltf) {
     scene.add(gltf.scene);
     console.log("✅ Model Loaded:", modelURL);
